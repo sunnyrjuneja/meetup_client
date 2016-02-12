@@ -11,10 +11,13 @@ module ApiCallers
       uri = URI.parse(@in_uri)
       http = Net::HTTP.new(uri.host, uri.port)
       response = http.request(class_to_call.new(uri.request_uri, headers))
-      format_response(response.body)
+      format_response(response)
     end
 
-    def format_response(response_body); response_body; end;
+    def format_response(response)
+      response.body['headers'] = response.to_hash
+      response.body
+    end
 
     private
 
