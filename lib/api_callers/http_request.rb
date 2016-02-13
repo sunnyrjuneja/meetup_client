@@ -1,3 +1,5 @@
+require 'json'
+
 module ApiCallers
   class HttpRequest
     CHARSET = 'UTF-8'
@@ -15,8 +17,9 @@ module ApiCallers
     end
 
     def format_response(response)
-      response.body['headers'] = response.to_hash
-      response.body
+      json = JSON.parse(response.body)
+      json['headers'] = response.to_hash
+      json
     end
 
     private
@@ -28,6 +31,5 @@ module ApiCallers
     def class_to_call
       Net::HTTP.const_get(@method.capitalize)
     end
-
   end
 end

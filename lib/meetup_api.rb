@@ -1,4 +1,4 @@
-require 'api_callers/json_request'
+require 'api_callers/http_request'
 require 'api_callers/http_requester'
 
 class MeetupApi
@@ -6,8 +6,8 @@ class MeetupApi
 
   def method_request(method, params)
     params = params.merge( { key: ::MeetupClient.config.api_key } )
-    json_request = ApiCallers::JsonRequest.new("#{BASE_URL}#{method}?#{query_string(params)}")
-    requester = ApiCallers::HttpRequester.new(json_request)
+    request = ApiCallers::HttpRequest.new("#{BASE_URL}#{method}?#{query_string(params)}")
+    requester = ApiCallers::HttpRequester.new(request)
     requester.execute_request
   end
 
